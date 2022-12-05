@@ -1,3 +1,62 @@
-.App {
-  text-align: center;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-size: 16px;
 }
+
+body,
+html,
+.app {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../image-bank/chess_background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-attachment: fixed;
+}
+
+h1 {
+  font-size: 3rem;
+  background-color: rgba(255, 255, 255, 0.114);
+}
+
+nav {
+  background-color: rgba(255, 255, 255, 0.114);
+}
+
+.all-reviews-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 90%;
+  list-style: none;
+  margin: auto;
+}
+
+.single-review-list-item {
+  box-shadow: 10px 10px 10px;
+  border-radius: 2px;
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.348);
+}
+
+.single-review-list-item > * {
+  padding: 5px;
+}
+
+.single-review-list-item > img {
+  min-width: 100px;
+  max-width: 70%;
+}
+
+/* @media only screen and (min-width: 700px) {
+  
+} */
+
+/* background-color: rgba(255, 255, 255, 0.114); */
