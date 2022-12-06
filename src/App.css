@@ -80,6 +80,15 @@ nav {
   padding: 10px;
 }
 
+.single-review-body {
+  width: 90%;
+  padding: 20px;
+
+  border: black solid;
+  background-color: rgba(255, 255, 255, 0.348);
+  border-radius: 5px;
+}
+
 .single-review > img {
   min-width: 100px;
   max-width: 70%;
@@ -106,7 +115,6 @@ button {
 
 .comments-list {
   list-style: none;
- 
 }
 
 .comments-list > li {

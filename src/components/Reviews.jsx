@@ -4,14 +4,18 @@ import { Link } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
 
   useEffect(() => {
     getReviews().then(fetchedReviews => {
       setReviews(fetchedReviews);
+      setReviewsLoading(false);
     });
   }, []);
 
-  return (
+  return reviewsLoading ? (
+    <h2>Loading...</h2>
+  ) : (
     <ul className="all-reviews-list">
       {reviews.map(review => {
         return (

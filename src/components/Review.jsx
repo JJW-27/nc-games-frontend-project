@@ -7,27 +7,30 @@ const Review = () => {
 
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
+  const [reviewLoading, setReviewLoading] = useState(true)
+  const [commentsLoading, setCommentsLoading] = useState(true)
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
       setReview(fetchedReview['0']);
+      setReviewLoading(false)
     });
   }, [review_id]);
 
   useEffect(() => {
     getComments(review_id).then(fetchedComments => {
       setComments(fetchedComments);
+      setCommentsLoading(false)
     });
   }, [review_id]);
 
-  return (
-    <div className="single-review">
+  return (reviewLoading && commentsLoading ? <h2>Loading...</h2> : <div className="single-review">
       <h2>{review.title}</h2>
       <p>
         Reviewed by: <em>{review.owner}</em>
       </p>
       <img src={review.review_img_url} alt={review.title} />
-      <p>{review.review_body}</p>
+      <p className="single-review-body">{review.review_body}</p>
 
       <div className="votes-container">
         <p>votes: {review.votes}</p>
