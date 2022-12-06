@@ -21,7 +21,8 @@ html,
 
 h1 {
   font-size: 3rem;
-  background-color: rgba(255, 255, 255, 0.114);
+  background-color: rgba(117, 78, 0, 0.214);
+  padding: 20px;
 }
 
 h2 {
@@ -33,7 +34,32 @@ h3 {
 }
 
 nav {
-  background-color: rgba(255, 255, 255, 0.114);
+  background-color: rgba(117, 78, 0, 0.214);
+  padding: 20px;
+  margin: auto;
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+nav > a > button {
+  box-shadow: 5px 5px 5px black;
+  
+  font-size: 1rem;
+  color: aliceblue;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(92, 44, 0);
+  margin:10px;
+  cursor:pointer;
+}
+
+nav > a > button:hover{
+  background-color: rgb(251, 170, 94);
+  color: black;
 }
 
 .all-reviews-list {
