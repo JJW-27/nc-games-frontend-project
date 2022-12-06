@@ -2,7 +2,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 body,
@@ -20,6 +20,14 @@ html,
 h1 {
   font-size: 3rem;
   background-color: rgba(255, 255, 255, 0.114);
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.1rem;
 }
 
 nav {
@@ -55,8 +63,66 @@ nav {
   max-width: 70%;
 }
 
+.single-review {
+  width: 90%;
+  box-shadow: 10px 10px 10px;
+  border-radius: 2px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.348);
+}
+
+.single-review > * {
+  padding: 10px;
+}
+
+.single-review > img {
+  min-width: 100px;
+  max-width: 70%;
+}
+
+button {
+  padding: 2px;
+  margin: 5px;
+  border-radius: 12px;
+}
+
+.votes-container {
+  margin: 20px;
+}
+
+.comments-container {
+  width: 90%;
+  padding: 20px;
+  padding-bottom: 30px;
+  border: black solid;
+  background-color: rgba(255, 255, 255, 0.348);
+  border-radius: 5px;
+}
+
+.comments-list {
+  list-style: none;
+ 
+}
+
+.comments-list > li {
+  width: 90%;
+  box-shadow: 10px 10px 10px;
+  border-radius: 2px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.348);
+}
+
+.comments-list > li > * {
+  padding: 2px;
+}
+
 /* @media only screen and (min-width: 700px) {
   
 } */
-
-/* background-color: rgba(255, 255, 255, 0.114); */
