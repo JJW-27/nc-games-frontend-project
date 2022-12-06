@@ -14,7 +14,7 @@ const Reviews = () => {
   }, []);
 
   return reviewsLoading ? (
-    <h2>Loading...</h2>
+    <h2 className="loading">Loading...</h2>
   ) : (
     <ul className="all-reviews-list">
       {reviews.map(review => {
