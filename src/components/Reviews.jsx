@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import getReviews from '../api';
+import { getReviews } from '../api';
+import { Link } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -19,13 +20,16 @@ const Reviews = () => {
             <p>
               Reviewed by: <em>{review.owner}</em>
             </p>
-            <img src={review.review_img_url} />
+            <img src={review.review_img_url} alt={review.title} />
             <p>
-              <em>{review.review_body.slice(0, 100)} ...</em>
-              <strong>read more</strong>
+              <em>{review.review_body.slice(0, 100)} </em>
+              <Link to={`/review/${review.review_id}`}>
+                <em>...</em>
+                <strong>read more</strong>
+              </Link>
             </p>
             <p>votes: {review.votes}</p>
-            <p>comments: {reviews.comments}</p>
+            <p>comments: {review.comment_count}</p>
           </li>
         );
       })}
