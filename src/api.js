@@ -37,3 +37,9 @@ export const getReviewsByCategory = category => {
 export const patchReviewVotes = (review_id, increment) => {
   return gamesApi.patch(`/reviews/${review_id}`, {inc_votes: increment})
 }
+
+export const getUsers = () => {
+  return gamesApi.get('/users').then(users => {
+    return users.data.users
+  })
+}

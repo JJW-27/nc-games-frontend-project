@@ -49,6 +49,11 @@ const Review = () => {
     });
   };
 
+  const handleNewComment = event => {
+    event.preventDefault();
+    const commentBody = event.target['0'].value
+  };
+
   if (err) return <p>{err}</p>;
   return reviewLoading && commentsLoading ? (
     <h2 className="loading">Loading...</h2>
@@ -65,6 +70,14 @@ const Review = () => {
         <p>votes: {review.votes}</p>
         <button onClick={handleUpVote}>☝️</button>
         <button onClick={handleDownVote}>👇</button>
+      </div>
+
+      <div className="comments-container">
+        <h3>Add new comment</h3>
+        <form onSubmit={handleNewComment} id="new-comment">
+          <textarea form="new-comment" placeholder="new comment..." required />
+          <button type="submit">Submit</button>
+        </form>
       </div>
 
       <div className="comments-container">
