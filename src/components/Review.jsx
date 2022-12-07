@@ -2,7 +2,13 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import userContext from '../contexts/User';
-import { getReview, getComments, patchReviewVotes, postComment } from '../api';
+import {
+  getReview,
+  getComments,
+  patchReviewVotes,
+  postComment,
+  deleteComment,
+} from '../api';
 
 const Review = () => {
   const { user } = useContext(userContext);
@@ -65,6 +71,19 @@ const Review = () => {
     });
   };
 
+  const handleDelete = event => {
+    event.preventDefault();
+    const commentId = event.target.parentElement.id;
+    deleteComment(commentId).then(() => {
+      setComments(currComments => {
+        const newComments = currComments.filter(comment => {
+          return comment.comment_id !== commentId;
+        });
+        return newComments;
+      });
+    });
+  };
+
   if (err) return <p>{err}</p>;
   return reviewLoading && commentsLoading ? (
     <h2 className="loading">Loading...</h2>
@@ -96,11 +115,10 @@ const Review = () => {
         <ul className="comments-list">
           {comments.map(comment => {
             return (
-              <li key={comment.comment_id}>
+              <li key={comment.comment_id} id={comment.comment_id}>
                 <h4>{comment.author}</h4>
                 <p>
                   <em>
-                    {' '}
                     Posted: {new Date(comment.created_at).toLocaleString()}
                   </em>
                 </p>
@@ -108,6 +126,7 @@ const Review = () => {
                 <p>votes: {comment.votes}</p>
                 <button>☝️</button>
                 <button>👇</button>
+                <button onClick={handleDelete}>delete</button>
               </li>
             );
           })}
