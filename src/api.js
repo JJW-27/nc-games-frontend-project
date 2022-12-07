@@ -30,16 +30,25 @@ export const getCategories = () => {
 
 export const getReviewsByCategory = category => {
   return gamesApi.get('/reviews', { params: { category } }).then(reviews => {
-    return reviews.data.reviews
-  })
+    return reviews.data.reviews;
+  });
 };
 
 export const patchReviewVotes = (review_id, increment) => {
-  return gamesApi.patch(`/reviews/${review_id}`, {inc_votes: increment})
-}
+  return gamesApi.patch(`/reviews/${review_id}`, { inc_votes: increment });
+};
 
 export const getUsers = () => {
   return gamesApi.get('/users').then(users => {
-    return users.data.users
+    return users.data.users;
+  });
+};
+
+export const postComment = (user, review_id, commentBody) => {
+  return gamesApi.post(`reviews/${review_id}/comments`, {
+    "username": user,
+    "body": commentBody,
+  }).then(comment => {
+    return comment.data.comment
   })
-}
+};

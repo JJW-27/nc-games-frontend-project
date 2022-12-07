@@ -1,8 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getReview, getComments, patchReviewVotes } from '../api';
+import { useContext } from 'react';
+import userContext from '../contexts/User';
+import { getReview, getComments, patchReviewVotes, postComment } from '../api';
 
 const Review = () => {
+  const { user } = useContext(userContext);
+
   const { review_id } = useParams();
 
   const [review, setReview] = useState({});
@@ -49,9 +53,16 @@ const Review = () => {
     });
   };
 
-  const handleNewComment = event => {
+  const handleCommentSubmit = event => {
     event.preventDefault();
-    const commentBody = event.target['0'].value
+    const commentBody = event.target['0'].value;
+    postComment(user, review.review_id, commentBody).then(newComment => {
+      setComments(currComments => {
+        const newComments = [...currComments];
+        newComments.unshift(newComment);
+        return newComments;
+      });
+    });
   };
 
   if (err) return <p>{err}</p>;
@@ -74,7 +85,7 @@ const Review = () => {
 
       <div className="comments-container">
         <h3>Add new comment</h3>
-        <form onSubmit={handleNewComment} id="new-comment">
+        <form onSubmit={handleCommentSubmit} id="new-comment">
           <textarea form="new-comment" placeholder="new comment..." required />
           <button type="submit">Submit</button>
         </form>
