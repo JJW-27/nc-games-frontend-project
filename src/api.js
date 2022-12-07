@@ -33,3 +33,7 @@ export const getReviewsByCategory = category => {
     return reviews.data.reviews
   })
 };
+
+export const patchReviewVotes = (review_id, increment) => {
+  return gamesApi.patch(`/reviews/${review_id}`, {inc_votes: increment})
+}

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getReview, getComments } from '../api';
+import { getReview, getComments, patchReviewVotes } from '../api';
 
 const Review = () => {
   const { review_id } = useParams();
@@ -9,6 +9,7 @@ const Review = () => {
   const [comments, setComments] = useState([]);
   const [reviewLoading, setReviewLoading] = useState(true);
   const [commentsLoading, setCommentsLoading] = useState(true);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
@@ -24,6 +25,31 @@ const Review = () => {
     });
   }, [review_id]);
 
+  const handleUpVote = () => {
+    setReview(currReview => {
+      return { ...currReview, votes: currReview.votes + 1 };
+    });
+    patchReviewVotes(review.review_id, 1).catch(err => {
+      setReview(currReview => {
+        return { ...currReview, votes: currReview.votes - 1 };
+      });
+      setErr('Something went wrong, please try again');
+    });
+  };
+
+  const handleDownVote = () => {
+    setReview(currReview => {
+      return { ...currReview, votes: currReview.votes - 1 };
+    });
+    patchReviewVotes(review.review_id, -1).catch(err => {
+      setReview(currReview => {
+        return { ...currReview, votes: currReview.votes + 1 };
+      });
+      setErr('Something went wrong, please try again');
+    });
+  };
+
+  if (err) return <p>{err}</p>;
   return reviewLoading && commentsLoading ? (
     <h2 className="loading">Loading...</h2>
   ) : (
@@ -37,8 +63,8 @@ const Review = () => {
 
       <div className="votes-container">
         <p>votes: {review.votes}</p>
-        <button>☝️</button>
-        <button>👇</button>
+        <button onClick={handleUpVote}>☝️</button>
+        <button onClick={handleDownVote}>👇</button>
       </div>
 
       <div className="comments-container">
