@@ -1,15 +1,29 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getReview, getComments, patchReviewVotes } from '../api';
+import { useContext } from 'react';
+import userContext from '../contexts/User';
+import {
+  getReview,
+  getComments,
+  patchReviewVotes,
+  postComment,
+  deleteComment,
+} from '../api';
 
 const Review = () => {
+  const { user } = useContext(userContext);
+
   const { review_id } = useParams();
 
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
   const [reviewLoading, setReviewLoading] = useState(true);
   const [commentsLoading, setCommentsLoading] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [err, setErr] = useState(null);
+  const [userExists, setUserExists] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
@@ -23,7 +37,7 @@ const Review = () => {
       setComments(fetchedComments);
       setCommentsLoading(false);
     });
-  }, [review_id]);
+  }, [review_id, comments]);
 
   const handleUpVote = () => {
     setReview(currReview => {
@@ -49,6 +63,62 @@ const Review = () => {
     });
   };
 
+  const handleCommentSubmit = event => {
+    event.preventDefault();
+    setIsDisabled(true)
+    const commentBody = event.target['0'].value;
+    postComment(user, review.review_id, commentBody)
+      .then(newComment => {
+        setComments(currComments => {
+          const newComments = [...currComments];
+          newComments.unshift(newComment);
+          return newComments;
+        });
+        setIsSubmitted(true);
+        setIsDisabled(false)
+      })
+      .catch(err => {
+        if (err.response.data.msg === 'User does not exist') {
+          setUserExists(false);
+        }
+      });
+  };
+  const commentForm = (
+    <div>
+      <h3>Add new comment</h3>
+      <form disabled={isDisabled} onSubmit={handleCommentSubmit} id="new-comment">
+        <textarea form="new-comment" placeholder="new comment..." required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+
+  let commentContainer;
+
+  isSubmitted
+    ? (commentContainer = (
+        <div>
+          {commentForm}
+          <p>comment added!</p>
+        </div>
+      ))
+    : (commentContainer = commentForm);
+
+  const handleDelete = event => {
+    event.preventDefault();
+    const commentId = event.target.parentElement.id;
+    deleteComment(commentId).then(() => {
+      setComments(currComments => {
+        const newComments = currComments.filter(comment => {
+          return comment.comment_id !== commentId;
+        });
+        return newComments;
+      });
+      setIsDeleted(true);
+      
+    });
+  };
+
   if (err) return <p>{err}</p>;
   return reviewLoading && commentsLoading ? (
     <h2 className="loading">Loading...</h2>
@@ -68,15 +138,20 @@ const Review = () => {
       </div>
 
       <div className="comments-container">
+        {commentContainer}
+        {!userExists && <p>Please log in before posting a comment</p>}
+      </div>
+
+      <div className="comments-container">
         <h3>Comments</h3>
         <ul className="comments-list">
+          {isDeleted && <li>Comment deleted</li>}
           {comments.map(comment => {
             return (
-              <li key={comment.comment_id}>
+              <li key={comment.comment_id} id={comment.comment_id}>
                 <h4>{comment.author}</h4>
                 <p>
                   <em>
-                    {' '}
                     Posted: {new Date(comment.created_at).toLocaleString()}
                   </em>
                 </p>
@@ -84,6 +159,9 @@ const Review = () => {
                 <p>votes: {comment.votes}</p>
                 <button>☝️</button>
                 <button>👇</button>
+                {comment.author === user && (
+                  <button onClick={handleDelete}>delete</button>
+                )}
               </li>
             );
           })}

@@ -157,6 +157,52 @@ button {
 
 .comments-list > li > * {
   padding: 2px;
+  overflow-wrap: break-word;
+}
+
+textarea {
+  padding: 5px;
+  width: 90%;
+  height:200px;
+  resize: vertical;
+}
+
+.users {
+  list-style: none;
+  width: 90%;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.users > button {
+  cursor:pointer;
+  width: 20%;
+  min-width: 200px;
+  box-shadow: 10px 10px 10px;
+  border-radius: 2px;
+  padding: 20px;
+  margin:20px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  background-color: rgba(202, 143, 27, 0.477);
+}
+
+.users > button > * {
+  padding: 10px;
+  width: 40%;
+  margin:auto
+}
+
+.users > button > img {
+  border: 5px solid black;
+  border-radius: 50%;
+  background-color: white;
+  width:90%;
 }
 
 
