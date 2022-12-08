@@ -179,6 +179,7 @@ textarea {
 .users > button {
   cursor:pointer;
   width: 20%;
+  min-width: 200px;
   box-shadow: 10px 10px 10px;
   border-radius: 2px;
   padding: 20px;
