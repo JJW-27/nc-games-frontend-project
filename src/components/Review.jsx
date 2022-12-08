@@ -80,24 +80,26 @@ const Review = () => {
         }
       });
   };
+  const commentForm = (
+    <div>
+      <h3>Add new comment</h3>
+      <form onSubmit={handleCommentSubmit} id="new-comment">
+        <textarea form="new-comment" placeholder="new comment..." required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
 
   let commentContainer;
 
   isSubmitted
-    ? (commentContainer = <p>comment added!</p>)
-    : (commentContainer = (
+    ? (commentContainer = (
         <div>
-          <h3>Add new comment</h3>
-          <form onSubmit={handleCommentSubmit} id="new-comment">
-            <textarea
-              form="new-comment"
-              placeholder="new comment..."
-              required
-            />
-            <button type="submit">Submit</button>
-          </form>
+          {commentForm}
+          <p>comment added!</p>
         </div>
-      ));
+      ))
+    : (commentContainer = commentForm);
 
   const handleDelete = event => {
     event.preventDefault();
@@ -110,7 +112,7 @@ const Review = () => {
         return newComments;
       });
       setIsDeleted(true);
-      console.log(isDeleted)
+      console.log(isDeleted);
     });
   };
 
