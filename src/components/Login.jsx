@@ -16,16 +16,17 @@ const Login = () => {
 
   const handleClick = event => {
     event.preventDefault();
-    setUser(event.target.innerText);
+    console.log(event)
+    setUser(event.target.id);
   };
 
   return (
     <div className="users">
       {users.map(user => {
         return (
-          <button onClick={handleClick} key={user.username}>
+          <button id={user.username} onClick={handleClick} key={user.username}>
             {user.username}
-            <img src={user.avatar_url} />
+            <img src={user.avatar_url} id={user.username} />
           </button>
         );
       })}
