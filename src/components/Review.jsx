@@ -23,6 +23,7 @@ const Review = () => {
   const [err, setErr] = useState(null);
   const [userExists, setUserExists] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
@@ -64,6 +65,7 @@ const Review = () => {
 
   const handleCommentSubmit = event => {
     event.preventDefault();
+    setIsDisabled(true)
     const commentBody = event.target['0'].value;
     postComment(user, review.review_id, commentBody)
       .then(newComment => {
@@ -73,6 +75,7 @@ const Review = () => {
           return newComments;
         });
         setIsSubmitted(true);
+        setIsDisabled(false)
       })
       .catch(err => {
         if (err.response.data.msg === 'User does not exist') {
@@ -83,7 +86,7 @@ const Review = () => {
   const commentForm = (
     <div>
       <h3>Add new comment</h3>
-      <form onSubmit={handleCommentSubmit} id="new-comment">
+      <form disabled={isDisabled} onSubmit={handleCommentSubmit} id="new-comment">
         <textarea form="new-comment" placeholder="new comment..." required />
         <button type="submit">Submit</button>
       </form>
@@ -112,7 +115,7 @@ const Review = () => {
         return newComments;
       });
       setIsDeleted(true);
-      console.log(isDeleted);
+      
     });
   };
 

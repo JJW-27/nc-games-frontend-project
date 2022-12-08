@@ -157,6 +157,7 @@ button {
 
 .comments-list > li > * {
   padding: 2px;
+  overflow-wrap: break-word;
 }
 
 textarea {
