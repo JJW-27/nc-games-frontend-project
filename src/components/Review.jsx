@@ -22,6 +22,7 @@ const Review = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [err, setErr] = useState(null);
   const [userExists, setUserExists] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
@@ -108,6 +109,8 @@ const Review = () => {
         });
         return newComments;
       });
+      setIsDeleted(true);
+      console.log(isDeleted)
     });
   };
 
@@ -137,6 +140,7 @@ const Review = () => {
       <div className="comments-container">
         <h3>Comments</h3>
         <ul className="comments-list">
+          {isDeleted && <li>Comment deleted</li>}
           {comments.map(comment => {
             return (
               <li key={comment.comment_id} id={comment.comment_id}>
@@ -150,7 +154,9 @@ const Review = () => {
                 <p>votes: {comment.votes}</p>
                 <button>☝️</button>
                 <button>👇</button>
-                {comment.author === user && <button onClick={handleDelete}>delete</button>}
+                {comment.author === user && (
+                  <button onClick={handleDelete}>delete</button>
+                )}
               </li>
             );
           })}
