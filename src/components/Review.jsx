@@ -19,7 +19,9 @@ const Review = () => {
   const [comments, setComments] = useState([]);
   const [reviewLoading, setReviewLoading] = useState(true);
   const [commentsLoading, setCommentsLoading] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [err, setErr] = useState(null);
+  const [userExists, setUserExists] = useState(true);
 
   useEffect(() => {
     getReview(review_id).then(fetchedReview => {
@@ -62,14 +64,39 @@ const Review = () => {
   const handleCommentSubmit = event => {
     event.preventDefault();
     const commentBody = event.target['0'].value;
-    postComment(user, review.review_id, commentBody).then(newComment => {
-      setComments(currComments => {
-        const newComments = [...currComments];
-        newComments.unshift(newComment);
-        return newComments;
+    postComment(user, review.review_id, commentBody)
+      .then(newComment => {
+        setComments(currComments => {
+          const newComments = [...currComments];
+          newComments.unshift(newComment);
+          return newComments;
+        });
+        setIsSubmitted(true);
+      })
+      .catch(err => {
+        if (err.response.data.msg === 'User does not exist') {
+          setUserExists(false);
+        }
       });
-    });
   };
+
+  let commentContainer;
+
+  isSubmitted
+    ? (commentContainer = <p>comment added!</p>)
+    : (commentContainer = (
+        <div>
+          <h3>Add new comment</h3>
+          <form onSubmit={handleCommentSubmit} id="new-comment">
+            <textarea
+              form="new-comment"
+              placeholder="new comment..."
+              required
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      ));
 
   const handleDelete = event => {
     event.preventDefault();
@@ -103,11 +130,8 @@ const Review = () => {
       </div>
 
       <div className="comments-container">
-        <h3>Add new comment</h3>
-        <form onSubmit={handleCommentSubmit} id="new-comment">
-          <textarea form="new-comment" placeholder="new comment..." required />
-          <button type="submit">Submit</button>
-        </form>
+        {commentContainer}
+        {!userExists && <p>Please log in before posting a comment</p>}
       </div>
 
       <div className="comments-container">
