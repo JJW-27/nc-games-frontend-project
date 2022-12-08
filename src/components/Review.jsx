@@ -35,7 +35,7 @@ const Review = () => {
       setComments(fetchedComments);
       setCommentsLoading(false);
     });
-  }, [review_id]);
+  }, [review_id, comments]);
 
   const handleUpVote = () => {
     setReview(currReview => {
@@ -150,7 +150,7 @@ const Review = () => {
                 <p>votes: {comment.votes}</p>
                 <button>☝️</button>
                 <button>👇</button>
-                <button onClick={handleDelete}>delete</button>
+                {comment.author === user && <button onClick={handleDelete}>delete</button>}
               </li>
             );
           })}
