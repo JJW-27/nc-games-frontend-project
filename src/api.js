@@ -4,8 +4,12 @@ export const gamesApi = axios.create({
   baseURL: 'https://real-rose-worm-kit.cyclic.app/api',
 });
 
-export const getReviews = () => {
-  return gamesApi.get('/reviews').then(reviews => {
+export const getReviews = category => {
+  let params;
+  category === 'all-reviews'
+    ? (params = undefined)
+    : (params = { params: { category } });
+  return gamesApi.get('/reviews', params).then(reviews => {
     return reviews.data.reviews;
   });
 };
@@ -28,12 +32,6 @@ export const getCategories = () => {
   });
 };
 
-export const getReviewsByCategory = category => {
-  return gamesApi.get('/reviews', { params: { category } }).then(reviews => {
-    return reviews.data.reviews;
-  });
-};
-
 export const patchReviewVotes = (review_id, increment) => {
   return gamesApi.patch(`/reviews/${review_id}`, { inc_votes: increment });
 };
@@ -45,14 +43,16 @@ export const getUsers = () => {
 };
 
 export const postComment = (user, review_id, commentBody) => {
-  return gamesApi.post(`reviews/${review_id}/comments`, {
-    "username": user,
-    "body": commentBody,
-  }).then(comment => {
-    return comment.data.comment
-  })
+  return gamesApi
+    .post(`reviews/${review_id}/comments`, {
+      username: user,
+      body: commentBody,
+    })
+    .then(comment => {
+      return comment.data.comment;
+    });
 };
 
-export const deleteComment = (commentId) => {
-  return gamesApi.delete(`comments/${commentId}`)
-}
+export const deleteComment = commentId => {
+  return gamesApi.delete(`comments/${commentId}`);
+};

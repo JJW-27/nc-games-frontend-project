@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleClick = event => {
     event.preventDefault();
-    console.log(event)
+    console.log(event);
     setUser(event.target.id);
   };
 
@@ -26,7 +26,7 @@ const Login = () => {
         return (
           <button id={user.username} onClick={handleClick} key={user.username}>
             {user.username}
-            <img src={user.avatar_url} id={user.username} />
+            <img src={user.avatar_url} id={user.username} alt={user.username} />
           </button>
         );
       })}

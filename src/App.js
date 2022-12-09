@@ -4,10 +4,9 @@ import { useState } from 'react';
 import UserContext from './contexts/User';
 import Header from './components/Header';
 import Nav from './components/Nav';
-import Login from './components/Login'
+import Login from './components/Login';
 import Reviews from './components/Reviews';
 import Review from './components/Review';
-import ReviewsByCategory from './components/ReviewsByCategory.jsx';
 
 function App() {
   const [user, setUser] = useState('guest');
@@ -18,8 +17,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/reviews" element={<Reviews />} />
-          <Route path="/reviews/:category" element={<ReviewsByCategory />} />
+          <Route path="/reviews/:category" element={<Reviews />} />
           <Route path="/review/:review_id" element={<Review />} />
         </Routes>
       </div>

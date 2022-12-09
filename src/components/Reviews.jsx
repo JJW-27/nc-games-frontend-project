@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getReviews } from '../api';
 import { Link } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsIsLoading, setReviewsIsLoading] = useState(true);
+
+  const { category } = useParams();
 
   useEffect(() => {
-    getReviews().then(fetchedReviews => {
+    getReviews(category).then(fetchedReviews => {
       setReviews(fetchedReviews);
-      setReviewsLoading(false);
+      setReviewsIsLoading(false);
     });
-  }, []);
+  }, [category]);
 
-  return reviewsLoading ? (
+  return reviewsIsLoading ? (
     <h2 className="loading">Loading...</h2>
   ) : (
     <ul className="all-reviews-list">
